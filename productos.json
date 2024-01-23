@@ -151,5 +151,14 @@
     "thumbnail": "imagen.jpg",
     "code": "P001",
     "stock": 10
+  },
+  {
+    "id": 19,
+    "title": "Producto de prueba",
+    "description": "Este es un producto de prueba",
+    "price": 50,
+    "thumbnail": "imagen.jpg",
+    "code": "P001",
+    "stock": 10
   }
 ]
