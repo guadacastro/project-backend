@@ -103,17 +103,4 @@ class ProductManager {
 }
 
 const productManager = new ProductManager('productos.json');
-
-// Agregar un producto
-productManager.addProduct({
-  title: "Producto de prueba",
-  description: "Este es un producto de prueba",
-  price: 50,
-  thumbnail: "imagen.jpg",
-  code: "P001",
-  stock: 10
-});
-
-
-
 module.exports = ProductManager;
