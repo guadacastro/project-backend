@@ -1,0 +1,19 @@
+<!-- views/realTimeProducts.handlebars -->
+{{#extend "layouts/main"}}
+  {{#content "body"}}
+    <h1>Real Time Products</h1>
+
+    <!-- Formulario para agregar productos -->
+    <form id="agregarProductoForm">
+      <!-- Campos del formulario... -->
+      <button type="submit">Agregar Producto</button>
+    </form>
+
+    <!-- Lista de productos -->
+    <ul id="listaProductos">
+      {{#each productos}}
+        <li>{{this.title}} - {{this.price}}</li>
+      {{/each}}
+    </ul>
+  {{/content}}
+{{/extend}}

@@ -1,14 +1,98 @@
 const express = require('express');
+const exphbs  = require('express-handlebars');
 const multer = require('multer');
+const ProductManager = require('./ProductManager.js');
+const socketIO = require('socket.io');
+const http = require('http');
+const path = require('path');
+
 const app = express();
 const upload = multer();
-const ProductManager = require('./ProductManager.js');
+const server = http.createServer(app);
+const io = socketIO(server, {path: '/socket.io',});
 
-app.use(express.json());
 const productManager = new ProductManager('productos.json');
 const CartManager = require('./CartManager.js');
 const cartManager = new CartManager('carrito.json');
 
+const indexRouter = require('./routes/index');
+const homeRouter = require('./routes/home');
+const realtimeProductsRouter = require('./routes/realtimeproducts');
+
+
+
+app.use('/', indexRouter);
+
+
+ 
+
+// Configuración de Handlebars
+app.engine('handlebars', exphbs({
+  layoutsDir: path.join(__dirname, 'views/layouts'), 
+}));
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'handlebars');
+
+
+//configuracion de express
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, 'public')));
+
+//configuracion de socket.io
+io.on('connection', (socket) => {
+    console.log('Usuario conectado')
+    //manejar el evento del cliente al agregar un producto
+    socket.on('productoAgregado', async (producto)=>{
+      try {
+        const newProduct = await productManager.addProduct(producto);
+        io.emit('productoAgregado', newProduct);
+      } catch (error) {
+        console.error(error);
+        socket.emit('error', {message: 'Error al agregar el producto'});
+      }
+    });
+
+    // Manejar evento del cliente al eliminar un producto
+    socket.on('productoEliminado', async (productId) => {
+      try {
+        await productManager.deleteProduct(productId);
+        io.emit('productoEliminado', productId);
+      } catch (error) {
+        console.error(error);
+        socket.emit('error', { message: 'Error al eliminar el producto' });
+      }
+    });
+
+    // Desconectar al usuario
+    socket.on('disconnect', () => {
+      console.log('Usuario desconectado');
+    });
+});
+
+app.use((req, res, next) => {
+  req.io = io;
+  next();
+})
+
+app.use('/', indexRouter);
+app.use('/', homeRouter);
+app.use('/', realtimeProductsRouter);
+
+
+
+app.get('/', (req, res) => {
+  res.render('index');
+})
+app.get('/home', async (req, res) => {
+  const products = await productManager.getProducts();
+  res.render('home', { products });
+});
+
+app.get('/realtimeproducts', async (req, res) => {
+  const products = await productManager.getProducts();
+  res.render('realtimeproducts', { products })
+})
 
 
 app.get('/products', async (req, res) => {
@@ -143,6 +227,12 @@ app.post('/api/carts/:cid/product/:pid', async (req, res) => {
 });
 
 const PORT = 8080;
+const SOCKET_PORT = 3000;
+
+server.listen(SOCKET_PORT, () => {
+  console.log(`Servidor de Socket.IO corriendo en http://localhost:${SOCKET_PORT}`);
+});
+
 app.listen(PORT, () => {
-  console.log(`Servidor corriendo en http://localhost:${PORT}`);
+  console.log(`Servidor principal corriendo en http://localhost:${PORT}`);
 });

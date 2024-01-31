@@ -1,0 +1,13 @@
+<!-- views/layouts/main.handlebars -->
+{{#extend "layouts/main"}}
+  {{#content "body"}}
+    <h1>Home</h1>
+
+    <!-- Lista de productos -->
+    <ul>
+      {{#each productos}}
+        <li>{{this.title}} - {{this.price}}</li>
+      {{/each}}
+    </ul>
+  {{/content}}
+{{/extend}}

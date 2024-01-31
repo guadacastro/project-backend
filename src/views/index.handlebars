@@ -1,0 +1,37 @@
+<!-- index.hbs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tu Aplicación con Socket.IO</title>
+</head>
+<body>
+
+  <!-- Aquí puedes agregar tu contenido HTML -->
+
+  <!-- Importar el cliente de Socket.IO -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.2/socket.io.js"></script>
+
+  <!-- Tu código de cliente -->
+  <script>
+    // Conectar al servidor Socket.IO
+    const socket = io();
+
+    // Manejar evento del servidor cuando se agrega un producto
+    socket.on('productoAgregado', (producto) => {
+      console.log('Nuevo producto agregado:', producto);
+      // Aquí puedes realizar acciones en el cliente cuando se agrega un producto
+    });
+
+    // Manejar evento del servidor cuando se elimina un producto
+    socket.on('productoEliminado', (productId) => {
+      console.log('Producto eliminado:', productId);
+      // Aquí puedes realizar acciones en el cliente cuando se elimina un producto
+    });
+
+    // Aquí puedes agregar más lógica según tus necesidades
+
+  </script>
+</body>
+</html>
