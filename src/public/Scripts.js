@@ -23,15 +23,15 @@ document.addEventListener('DOMContentLoaded', () => {
         thumbnails: document.getElementById('thumbnails').value.split(','),
       };
   
-      // Emitir evento WebSocket
+ 
       socket.emit('productoAgregado', datosProducto);
     });
   
-    // Escuchar eventos WebSocket del servidor
+
     socket.on('productoAgregado', (producto) => {
-      // Manejar la actualización en tiempo real del producto
+   
       console.log('Producto agregado:', producto);
-      // Puedes actualizar la interfaz aquí según sea necesario
+   
     });
   });
   
