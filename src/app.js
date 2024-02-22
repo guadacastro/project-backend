@@ -5,11 +5,12 @@ const ProductManager = require('./ProductManager.js');
 const socketIO = require('socket.io');
 const http = require('http');
 const path = require('path');
+const handlebars = require('handlebars'); 
 
 const app = express();
 const upload = multer();
 const server = http.createServer(app);
-const io = socketIO(server, {path: '/socket.io',});
+const io = socketIO(server, { path: '/socket.io' });
 
 const productManager = new ProductManager('productos.json');
 const CartManager = require('./CartManager.js');
@@ -27,12 +28,16 @@ app.use('/', indexRouter);
  
 
 // Configuración de Handlebars
-app.engine('handlebars', exphbs({
-  layoutsDir: path.join(__dirname, 'views/layouts'), 
-}));
+// app.engine('handlebars', exphbs({
+//   defaultLayout: 'main',
+//   layoutsDir: path.join(__dirname, 'views/layouts'), 
+// }));
+// app.set('views', path.join(__dirname, 'views'));
+// app.set('view engine', 'handlebars');
+
+app.engine('handlebars', exphbs());
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'handlebars');
-
 
 //configuracion de express
 app.use(express.json());
