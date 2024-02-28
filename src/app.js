@@ -6,6 +6,7 @@ const socketIO = require('socket.io');
 const http = require('http');
 const path = require('path');
 const handlebars = require('handlebars'); 
+const mongoose = require('mongoose');
 
 const app = express();
 const upload = multer();
@@ -20,10 +21,30 @@ const indexRouter = require('./routes/index');
 const homeRouter = require('./routes/home');
 const realtimeProductsRouter = require('./routes/realtimeproducts');
 
+const productRoutes = require('./routes/productRoutes.js');
+const cartRoutes = require('./routes/cartRoutes.js');
+
+// Importar los modelos de Mongoose
+const Product = require('./models/Product');
+const Cart = require('./models/Cart');
 
 
 app.use('/', indexRouter);
 
+// Conexión a la base de datos MongoDB con Mongoose
+mongoose.connect('mongodb+srv://guadycasmar123:Frat1029@codercluster.wtvepfl.mongodb.net/?retryWrites=true&w=majority&appName=CoderCluster', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+})
+  .then(() => console.log('Conexión exitosa a MongoDB'))
+  .catch(err => console.error('Error al conectar a MongoDB:', err));
+
+
+
+
+// Rutas para productos y carritos
+app.use('/products', productRoutes);
+app.use('/carts', cartRoutes);
 
  
 
@@ -35,9 +56,9 @@ app.use('/', indexRouter);
 // app.set('views', path.join(__dirname, 'views'));
 // app.set('view engine', 'handlebars');
 
-app.engine('handlebars', exphbs());
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'handlebars');
+// app.engine('handlebars', exphbs());
+// app.set('views', path.join(__dirname, 'views'));
+// app.set('view engine', 'handlebars');
 
 //configuracion de express
 app.use(express.json());
