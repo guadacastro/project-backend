@@ -1,0 +1,192 @@
+[
+  {
+    "id": 1,
+    "title": "Producto1",
+    "description": "Este es un producto de prueba",
+    "price": 50,
+    "thumbnail": "imagen.jpg",
+    "code": "P001",
+    "stock": 10,
+    "category": "hombre"
+  },
+  {
+    "id": 2,
+    "title": "Producto2",
+    "description": "Este es un producto de prueba",
+    "price": 60,
+    "thumbnail": "imagen.jpg",
+    "code": "P002",
+    "stock": 11,
+    "category": "mujer"
+  },
+  {
+    "id": 3,
+    "title": "Producto3",
+    "description": "Este es un producto de prueba",
+    "price": 70,
+    "thumbnail": "imagen.jpg",
+    "code": "P003",
+    "stock": 12,
+    "category": "niño"
+  },
+  {
+    "id": 5,
+    "title": "Producto4",
+    "description": "Este es un producto de prueba",
+    "price": 80,
+    "thumbnail": "imagen.jpg",
+    "code": "P004",
+    "stock": 13,
+    "category": "electrodomesticos"
+  },
+  {
+    "id": 6,
+    "title": "Producto5",
+    "description": "Este es un producto de prueba",
+    "price": 90,
+    "thumbnail": "imagen.jpg",
+    "code": "P005",
+    "stock": 14,
+    "category": "deportes"
+  },
+  {
+    "id": 7,
+    "title": "Producto6",
+    "description": "Este es un producto de prueba",
+    "price": 100,
+    "thumbnail": "imagen.jpg",
+    "code": "P006",
+    "stock": 15,
+    "category": "hogar"
+  },
+  {
+    "id": 8,
+    "title": "Producto7",
+    "description": "Este es un producto de prueba",
+    "price": 110,
+    "thumbnail": "imagen.jpg",
+    "code": "P007",
+    "stock": 16,
+    "category": "jardin"
+  },
+  {
+    "id": 9,
+    "title": "Producto8",
+    "description": "Este es un producto de prueba",
+    "price": 120,
+    "thumbnail": "imagen.jpg",
+    "code": "P008",
+    "stock": 17,
+    "category": "tecnologia"
+  },
+  {
+    "id": 10,
+    "title": "Producto9",
+    "description": "Este es un producto de prueba",
+    "price": 130,
+    "thumbnail": "imagen.jpg",
+    "code": "P009",
+    "stock": 18,
+    "category": "ropa"
+  },
+  {
+    "id": 11,
+    "title": "Producto10",
+    "description": "Este es un producto de prueba",
+    "price": 140,
+    "thumbnail": "imagen.jpg",
+    "code": "P010",
+    "stock": 19,
+    "category": "juguetes"
+  },
+  {
+    "id": 12,
+    "title": "Producto11",
+    "description": "Este es un producto de prueba",
+    "price": 150,
+    "thumbnail": "imagen.jpg",
+    "code": "P011",
+    "stock": 20,
+    "category": "libros"
+  },
+  {
+    "id": 13,
+    "title": "Producto12",
+    "description": "Este es un producto de prueba",
+    "price": 160,
+    "thumbnail": "imagen.jpg",
+    "code": "P012",
+    "stock": 21,
+    "category": "belleza"
+  },
+  {
+    "id": 14,
+    "title": "Producto13",
+    "description": "Este es un producto de prueba",
+    "price": 170,
+    "thumbnail": "imagen.jpg",
+    "code": "P013",
+    "stock": 22,
+    "category": "comida"
+  },
+  {
+    "id": 16,
+    "title": "Producto14",
+    "description": "Este es un producto de prueba",
+    "price": 180,
+    "thumbnail": "imagen.jpg",
+    "code": "P014",
+    "stock": 23,
+    "category": "salud"
+  },
+  {
+    "id": 17,
+    "title": "Producto15",
+    "description": "Este es un producto de prueba",
+    "price": 190,
+    "thumbnail": "imagen.jpg",
+    "code": "P015",
+    "stock": 24,
+    "category": "entretenimiento"
+  },
+  {
+    "id": 18,
+    "title": "Producto16",
+    "description": "Este es un producto de prueba",
+    "price": 200,
+    "thumbnail": "imagen.jpg",
+    "code": "P016",
+    "stock": 25,
+    "category": "viajes"
+  },
+  {
+    "id": 19,
+    "title": "Producto17",
+    "description": "Este es un producto de prueba",
+    "price": 210,
+    "thumbnail": "imagen.jpg",
+    "code": "P017",
+    "stock": 26,
+    "category": "decoracion"
+  },
+  {
+    "id": 20,
+    "title": "Producto18",
+    "description": "Este es un producto de prueba",
+    "price": 220,
+    "thumbnail": "imagen.jpg",
+    "code": "P018",
+    "stock": 27,
+    "category": "musica"
+  },
+  {
+    "id": 21,
+    "title": "Producto19",
+    "description": "Este es un producto de prueba",
+    "price": 230,
+    "thumbnail": "imagen.jpg",
+    "code": "P019",
+    "stock": 28,
+    "category": "arte"
+  }
+]

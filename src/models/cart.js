@@ -1,8 +1,9 @@
 const mongoose = require('mongoose');
 
 const cartSchema = new mongoose.Schema({
-  products: [
-    {
+  products: {
+    type: Map,
+    of: {
       product: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Product'
@@ -12,8 +13,9 @@ const cartSchema = new mongoose.Schema({
         default: 1
       }
     }
-  ]
+  }
 });
+
 
 const Cart = mongoose.model('Cart', cartSchema);
 
