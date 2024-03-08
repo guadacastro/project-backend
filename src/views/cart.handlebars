@@ -1,0 +1,11 @@
+<h1>Tu Carrito</h1>
+{{#if products.length}}
+<ul>
+  {{#each products}}
+  <li>{{this.details.title}} x {{this.quantity}}</li>
+  {{/each}}
+</ul>
+<button onclick="location.href='/carts/checkout'">Checkout</button>
+{{else}}
+<p>Tu carrito está vacío</p>
+{{/if}}

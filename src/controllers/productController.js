@@ -56,7 +56,7 @@ const productController = {
         nextLink: page < totalPages ? `${req.protocol}://${req.get('host')}${req.baseUrl}?page=${page + 1}&limit=${limit}&sort=${sort}&query=${category}` : null
       };
 
-      res.json(response);
+      res.render('products', { products: response.payload });
     } catch (error) {
       console.error(error);
       res.status(500).json({ status: "error", error: 'Error al obtener productos' });
@@ -69,7 +69,7 @@ const productController = {
       if (!product) {
         return res.status(404).json({ status: "error", error: 'Producto no encontrado' });
       }
-      res.json({ status: "success", payload: product });
+      res.render('products', { products: response.payload });
     } catch (error) {
       console.error(error);
       res.status(500).json({ status: "error", error: 'Error al obtener producto por ID' });

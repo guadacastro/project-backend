@@ -1,5 +1,6 @@
 const { Cart, Product } = require('../models');
 const mongoose = require('mongoose')
+
 const cartController = {
 
     getAllCarts: async (req, res) => {
@@ -50,7 +51,7 @@ const cartController = {
       }
   
       // Devolver la información del carrito con los detalles de los productos
-      res.json({ _id: cart._id, products: products, __v: cart.__v });
+      res.render('cart', { cart: cartDetails });
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: 'Error al obtener carrito por ID' });

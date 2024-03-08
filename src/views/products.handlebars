@@ -1,16 +1,11 @@
 <h1>Productos</h1>
-
-
-
-<form id="agregarProductoForm">
-    <label for="title">Título del producto:</label><br>
-    <input type="text" id="title" name="title" required><br>
-
-    <label for="description">Descripción del producto:</label><br>
-    <input type="text" id="description" name="description" required><br>
-    
-    
-    
-    <input type="submit" value="Submit">
-</form>
-
+<ul>
+  {{#each payload}}
+  <li>
+    <h2>{{this.title}}</h2>
+    <p>{{this.description}}</p>
+    <p>Precio: ${{this.price}}</p>
+    <button onclick="location.href='/carts/addProduct/{{this._id}}'">Agregar al carrito</button>
+  </li>
+  {{/each}}
+</ul>
