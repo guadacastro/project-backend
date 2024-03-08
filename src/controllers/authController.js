@@ -26,29 +26,24 @@ async function loginHandler(req, res, next) {
   
 
   async function registerHandler(req, res, next) {
-    const { email, password } = req.body;
-  
+    const { first_name, last_name, email, age, password } = req.body;
+
     try {
-      // Verificar si el correo electrónico ya existe
-      const existingUser = await User.findOne({ email });
-      if (existingUser) {
-        // Manejar el caso en que el usuario ya exista
-        return res.redirect('/register'); // O enviar un mensaje de error
-      }
-  
-      // Hashear la contraseña
-      const hashedPassword = await bcrypt.hash(password, 10);
-  
-      // Crear el nuevo usuario y guardarlo en la base de datos
-      const newUser = new User({ email, password: hashedPassword });
-      await newUser.save();
-  
-      // Realizar otras acciones como iniciar sesión al usuario
-      req.session.userId = newUser._id;
-      return res.redirect('/products'); // Redirigir a la página de productos o al inicio de sesión
-  
-    } catch (err) {
-      next(err);
+        const existingUser = await User.findOne({ email });
+        if (existingUser) {
+        req.flash('error_msg', 'El email ya está registrado.');
+        return res.redirect('/register');
+        }
+
+        const user = new User({ first_name, last_name, email, age, password });
+        await user.save();
+
+        req.session.userId = user._id;
+        res.redirect('/login');
+    } catch (error) {
+        console.error(error);
+        req.flash('error_msg', 'Error durante el registro.');
+        res.redirect('/register');
     }
   }
   

@@ -10,6 +10,7 @@ const PORT = 8080;
 
 const session = require('express-session');
 const authRoutes = require('./routes/authRoutes');
+const profileController = require('./controllers/profileController');
 
 // Conexión a la base de datos MongoDB con Mongoose
 mongoose.connect('mongodb+srv://guadycasmar123:Frat1029@codercluster.wtvepfl.mongodb.net/?retryWrites=true&w=majority&appName=CoderCluster', {
@@ -56,6 +57,27 @@ app.use(async (req, res, next) => {
 // Rutas de autenticación
 app.use('/', authRoutes);
 
+function checkAuthenticated(req, res, next) {
+  if (req.session.userId) {
+    return next();
+  }
+
+  return res.redirect('/login');
+}
+
+function checkNotAuthenticated(req, res, next) {
+  if (req.session.userId) {
+    return res.redirect('/'); // Redirigir a la página principal si ya está logueado
+  }
+
+  next();
+}
+
+// Usar el middleware
+app.get('/login', checkNotAuthenticated, (req, res) => res.render('login'));
+app.get('/register', checkNotAuthenticated, (req, res) => res.render('register'));
+app.get('/profile', checkAuthenticated, profileController.showProfile); // Asegúrate de crear el "profileController"
+app.get('/profile', checkAuthenticated, profileController.showProfile);
 // Configuración de Socket.IO
 const server = http.createServer(app);
 const io = socketIO(server);
