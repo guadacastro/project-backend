@@ -27,7 +27,7 @@ const productController = {
       // Aplicar ordenamiento si se proporciona
       if (sort) {
         if (sort === 'asc') {
-          query = query.sort({ price: 1, sotck: 1 });
+          query = query.sort({ price: 1, stock: 1 });
         } else if (sort === 'desc') {
           query = query.sort({ price: -1, stock: -1 });
         }
@@ -69,7 +69,7 @@ const productController = {
       if (!product) {
         return res.status(404).json({ status: "error", error: 'Producto no encontrado' });
       }
-      res.render('products', { products: response.payload });
+      res.render('productDetail', { product });
     } catch (error) {
       console.error(error);
       res.status(500).json({ status: "error", error: 'Error al obtener producto por ID' });
