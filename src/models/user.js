@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
-// Mantener el esquema original e incorporar funcionalidades requeridas
+// Esquema del modelo User
 const userSchema = new mongoose.Schema({
   first_name: {
     type: String,
@@ -26,7 +26,7 @@ const userSchema = new mongoose.Schema({
   }
 });
 
-// Hasheo de contraseña antes de guardar si la contraseña fue modificada
+// Hasheo de la contraseña antes de guardar, si la contraseña fue modificada
 userSchema.pre('save', async function(next) {
   if (!this.isModified('password')) return next();
   
@@ -35,13 +35,18 @@ userSchema.pre('save', async function(next) {
   next();
 });
 
-// Método para comparar la contraseña ingresada con la almacenada (hasheada)
-userSchema.methods.comparePassword = function(candidatePassword, cb) {
-  bcrypt.compare(candidatePassword, this.password, (err, isMatch) => {
-    if (err) return cb(err);
-    cb(null, isMatch);
+// Método para comparar la contraseña ingresada con la almacenada (hasheada), ahora devolviendo una promesa
+userSchema.methods.comparePassword = function(candidatePassword) {
+  return new Promise((resolve, reject) => {
+    bcrypt.compare(candidatePassword, this.password, (err, isMatch) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(isMatch);
+      }
+    });
   });
 };
 
-// Exporta el modelo de Mongoose
+// Exportación del modelo de Mongoose
 module.exports = mongoose.model('User', userSchema);

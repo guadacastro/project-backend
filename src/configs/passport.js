@@ -1,7 +1,6 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
-const GitHubStrategy = require('passport-github2').Strategy; // Asegúrate de tener passport-github2 instalado
-const mongoose = require('mongoose');
+const GitHubStrategy = require('passport-github2').Strategy; 
 const User = require('../models/user');
 
 // Estrategia local para registro
@@ -57,20 +56,16 @@ passport.use('local-login', new LocalStrategy({
 passport.use(new GitHubStrategy({
   clientID: "TU_CLIENT_ID_DE_GITHUB",
   clientSecret: "TU_SECRET_DE_GITHUB",
-  callbackURL: "http://localhost:3000/auth/github/callback"
+  callbackURL: "http://localhost:8080/auth/github/callback"
 }, async (accessToken, refreshToken, profile, done) => {
   try {
-    // Aquí puedes manejar la creación o búsqueda del usuario basado en la información de GitHub
     const user = await User.findOne({ 'githubId': profile.id });
     if (user) {
       return done(null, user);
     } else {
-      // Suponiendo que tu modelo User pueda manejar usuarios de GitHub
       const newUser = new User({
-        // Ajusta según tu esquema de User
         githubId: profile.id,
         name: profile.displayName
-        // Puedes agregar más campos que desees guardar, basados en la información proveída por GitHub
       });
       await newUser.save();
       return done(null, newUser);
@@ -85,10 +80,13 @@ passport.serializeUser((user, done) => {
   done(null, user.id);
 });
 
-passport.deserializeUser((id, done) => {
-  User.findById(id, (err, user) => {
-    done(err, user);
-  });
+passport.deserializeUser(async (id, done) => {
+  try {
+    const user = await User.findById(id);
+    done(null, user);
+  } catch (err) {
+    done(err);
+  }
 });
 
 module.exports = passport;
