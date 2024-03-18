@@ -4,13 +4,34 @@ const mongoose = require('mongoose');
 const path = require('path');
 const http = require('http');
 const socketIO = require('socket.io');
-const User = require('./models/user');
+
 const app = express();
 const PORT = 8080;
 
 const session = require('express-session');
-const authRoutes = require('./routes/authRoutes');
-const profileController = require('./controllers/profileController');
+const passport = require('./configs/passport'); 
+const flash = require('connect-flash');
+
+const authRoutes = require('./routes/authRoutes.js');
+const User = require('./models/user');
+const profileController = require('./controllers/profileController'); // Aquí importas el controlador del perfil
+
+// Configuración de la sesión
+app.use(session({
+  secret: 'yourSecretKey', 
+  resave: false,
+  saveUninitialized: false
+}));
+
+// Inicialización de Passport y configuración de las sesiones
+app.use(passport.initialize());
+app.use(passport.session());
+
+// Habilita mensajes flash
+app.use(flash());
+
+// Habilita la recepción de datos a través de formularios
+app.use(express.urlencoded({ extended: false }));
 
 // Conexión a la base de datos MongoDB con Mongoose
 mongoose.connect('mongodb+srv://guadycasmar123:Frat1029@codercluster.wtvepfl.mongodb.net/?retryWrites=true&w=majority&appName=CoderCluster', {
@@ -30,13 +51,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Configuración de la sesión
-app.use(session({ 
-  secret: 'secret-key',
-  resave: false,
-  saveUninitialized: true
-}));
-
 // Agregar datos de usuario
 app.use(async (req, res, next) => {
   if (req.session && req.session.userId) {
@@ -54,11 +68,11 @@ app.use(async (req, res, next) => {
   next();
 });
 
-// Rutas de autenticación
+//Rutas de autenticación
 app.use('/', authRoutes);
 
 function checkAuthenticated(req, res, next) {
-  if (req.session.userId) {
+  if (req.isAuthenticated()) {
     return next();
   }
 
@@ -66,7 +80,7 @@ function checkAuthenticated(req, res, next) {
 }
 
 function checkNotAuthenticated(req, res, next) {
-  if (req.session.userId) {
+  if (req.isAuthenticated()) {
     return res.redirect('/'); // Redirigir a la página principal si ya está logueado
   }
 
@@ -76,7 +90,6 @@ function checkNotAuthenticated(req, res, next) {
 // Usar el middleware
 app.get('/login', checkNotAuthenticated, (req, res) => res.render('login'));
 app.get('/register', checkNotAuthenticated, (req, res) => res.render('register'));
-app.get('/profile', checkAuthenticated, profileController.showProfile); // Asegúrate de crear el "profileController"
 app.get('/profile', checkAuthenticated, profileController.showProfile);
 // Configuración de Socket.IO
 const server = http.createServer(app);
@@ -87,9 +100,13 @@ app.set('socketio', io);
 const productRoutes = require('./routes/productRoutes.js');
 const cartRoutes = require('./routes/cartRoutes.js');
 
-// Usar las rutas
+//Usar las rutas
 app.use('/products', productRoutes);
 app.use('/carts', cartRoutes);
+
+app.get('/', function (req, res) {
+  res.redirect('/login');
+});
 
 // Manejar errores
 app.use((err, req, res, next) => {
